@@ -1,26 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Rom-Com Soft Neobrutalist Palette */
+  --background: #FFFDF5; /* Creamy warm background */
+  --foreground: #1a1a1a; /* Sharp black text */
+  --primary: #FF6B6B; /* Soft Salmon/Red */
+  --primary-hover: #FF5252;
+  --secondary: #4ECDC4; /* Teal/Turquoise */
+  --accent: #FFE66D; /* Soft Yellow */
+  --border-color: #1a1a1a;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-border: var(--border-color);
+  
+  --font-serif: var(--font-fraunces);
+  --font-sans: var(--font-dm-sans);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), sans-serif;
 }
+
+/* Utility for Neobrutalist borders */
+.neo-border {
+  border: 2px solid var(--border-color);
+}
+
