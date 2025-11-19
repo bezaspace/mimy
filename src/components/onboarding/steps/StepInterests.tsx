@@ -6,13 +6,13 @@ interface StepProps {
   updateFormData: (data: Partial<OnboardingFormData>) => void;
 }
 
-const AVAILABLE_INTERESTS = [
+export const AVAILABLE_INTERESTS = [
   "Hiking", "Coffee", "Books", "Music", "Travel", "Foodie", "Gym", 
   "Gaming", "Art", "Movies", "Tech", "Nature", "Cooking", "Dancing", 
   "Photography", "Pets", "Yoga", "Politics", "Fashion", "History"
 ];
 
-const DEAL_BREAKERS = [
+export const DEAL_BREAKERS = [
   "Smoking", "Drugs", "Kids", "Pets", "Politics", "Religion"
 ];
 
