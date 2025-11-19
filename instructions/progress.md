@@ -33,3 +33,11 @@
 - [x] **2.2.3 Pass Action** (Pass removes card and records interaction via `/api/feed/interaction`.)
 - [x] **2.3.1 Profile Settings Page** (Added `/settings` with basic profile controls.)
 - [x] **2.3.2 "Open to Whispers" Toggle** (Toggle updates user doc and controls discoverability.)
+
+## Phase 3: The Whisper Core (Epic 2)
+- [x] **3.1.1 Audio Recorder Component (Client-only)**
+  - Implemented `AudioRecorder` using browser MediaRecorder and Web Audio API.
+  - 45s max duration with visual timer and live waveform canvas.
+- [x] **3.1.2 Whisper Modal Integration**
+  - `Whisper Hi` on feed cards opens `WhisperModal` with the recorder.
+  - Supports preview playback, re-record, and a disabled "Send (coming soon)" action.

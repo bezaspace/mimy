@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
+import { WhisperModal } from "@/components/whisper/WhisperModal";
 
 export default function Home() {
   const { user, profile, loading, signInWithGoogle, logout } = useAuth();
@@ -11,6 +12,7 @@ export default function Home() {
   const [feedLoading, setFeedLoading] = useState(false);
   const [feedError, setFeedError] = useState<string | null>(null);
   const [remainingQuota, setRemainingQuota] = useState<number | null>(null);
+  const [activeWhisperTarget, setActiveWhisperTarget] = useState<FeedProfileSummary | null>(null);
 
   // Redirect logic for authenticated users without profiles
   useEffect(() => {
@@ -95,6 +97,12 @@ export default function Home() {
   if (user && profile) {
     return (
       <div className="flex min-h-screen flex-col items-center bg-gray-50 p-4">
+        {activeWhisperTarget && (
+          <WhisperModal
+            target={activeWhisperTarget}
+            onClose={() => setActiveWhisperTarget(null)}
+          />
+        )}
         <header className="w-full max-w-md flex justify-between items-center p-4 bg-white rounded-xl shadow-sm mb-6">
           <div className="flex items-center gap-3">
             {profile.photoURLs[0] && (
@@ -151,7 +159,12 @@ export default function Home() {
           ) : (
             <div className="space-y-4">
               {feedProfiles.map((p) => (
-                <FeedCard key={p.uid} profile={p} onPass={() => handlePass(p.uid)} />
+                <FeedCard
+                  key={p.uid}
+                  profile={p}
+                  onPass={() => handlePass(p.uid)}
+                  onWhisper={() => setActiveWhisperTarget(p)}
+                />
               ))}
               {typeof remainingQuota === "number" && (
                 <p className="text-xs text-gray-500 text-center mt-2">
@@ -219,9 +232,10 @@ type FeedProfileSummary = {
 interface FeedCardProps {
   profile: FeedProfileSummary;
   onPass: () => void;
+  onWhisper: () => void;
 }
 
-function FeedCard({ profile, onPass }: FeedCardProps) {
+function FeedCard({ profile, onPass, onWhisper }: FeedCardProps) {
   const [revealed, setRevealed] = useState(false);
 
   const handleReveal = () => {
@@ -274,6 +288,7 @@ function FeedCard({ profile, onPass }: FeedCardProps) {
           <button
             className="px-4 py-2 rounded-lg bg-primary text-white neo-border text-sm font-semibold hover:brightness-110 transition"
             type="button"
+            onClick={onWhisper}
           >
             Whisper Hi
           </button>
