@@ -40,4 +40,6 @@
   - 45s max duration with visual timer and live waveform canvas.
 - [x] **3.1.2 Whisper Modal Integration**
   - `Whisper Hi` on feed cards opens `WhisperModal` with the recorder.
-  - Supports preview playback, re-record, and a disabled "Send (coming soon)" action.
+  - Supports preview playback, re-record, and a "Send" action wired through safety check.
+ - [x] **3.2.1 Whisper Safety Layer (Gemini on Vertex AI)**
+  - Implemented `/api/whispers/safety` using Gemini 2.5 Flash-Lite on Vertex AI to moderate raw audio before sending.

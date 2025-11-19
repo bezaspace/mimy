@@ -7,9 +7,11 @@ export type RecorderStatus = "idle" | "recording" | "preview";
 export interface AudioRecorderProps {
   maxDurationMs?: number;
   onRecordingReady?: (blob: Blob) => void;
+  onSendRequested?: () => void;
+  isChecking?: boolean;
 }
 
-export function AudioRecorder({ maxDurationMs = 45000, onRecordingReady }: AudioRecorderProps) {
+export function AudioRecorder({ maxDurationMs = 45000, onRecordingReady, onSendRequested, isChecking }: AudioRecorderProps) {
   const [status, setStatus] = useState<RecorderStatus>("idle");
   const [elapsedMs, setElapsedMs] = useState(0);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
@@ -318,10 +320,11 @@ export function AudioRecorder({ maxDurationMs = 45000, onRecordingReady }: Audio
               </button>
               <button
                 type="button"
-                disabled={!hasPreviewed}
+                disabled={!hasPreviewed || !onSendRequested || !!error || isChecking}
+                onClick={onSendRequested}
                 className="flex-1 px-3 py-2 rounded-lg bg-primary text-white neo-border text-xs font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send (coming soon)
+                {isChecking ? "Vibe checking..." : "Send"}
               </button>
             </div>
           </div>

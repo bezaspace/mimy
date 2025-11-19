@@ -1,7 +1,9 @@
 "use client";
 
 import type { FC } from "react";
+import { useState } from "react";
 import { AudioRecorder } from "@/components/whisper/AudioRecorder";
+import { useAuth } from "@/context/AuthContext";
 
 export interface WhisperModalProps {
   target: {
@@ -16,6 +18,70 @@ export interface WhisperModalProps {
 }
 
 export const WhisperModal: FC<WhisperModalProps> = ({ target, onClose }) => {
+  const { user } = useAuth();
+  const [recordingBlob, setRecordingBlob] = useState<Blob | null>(null);
+  const [isChecking, setIsChecking] = useState(false);
+  const [blockedMessage, setBlockedMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleRecordingReady = (blob: Blob) => {
+    setRecordingBlob(blob);
+    setBlockedMessage(null);
+    setErrorMessage(null);
+  };
+
+  const handleSendRequested = async () => {
+    if (!user || !recordingBlob || isChecking) {
+      return;
+    }
+
+    setIsChecking(true);
+    setBlockedMessage(null);
+    setErrorMessage(null);
+
+    try {
+      const idToken = await user.getIdToken();
+      const formData = new FormData();
+      formData.append("audio", recordingBlob, "whisper.webm");
+
+      const response = await fetch("/api/whispers/safety", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: formData,
+      });
+
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok || !data) {
+        setErrorMessage("We couldn't vibe check this right now. Please try again.");
+        return;
+      }
+
+      if (data.ok && data.decision === "allow") {
+        setBlockedMessage(null);
+        setErrorMessage(null);
+        return;
+      }
+
+      if (data.decision === "block") {
+        setBlockedMessage(
+          data.explanation ||
+            data.reason ||
+            "We picked up language that does not fit this app's vibe. Try a kinder whisper.",
+        );
+        return;
+      }
+
+      setErrorMessage("We couldn't vibe check this right now. Please try again.");
+    } catch (_error) {
+      setErrorMessage("We couldn't vibe check this right now. Please try again.");
+    } finally {
+      setIsChecking(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
       <div className="w-full max-w-md max-h-[90vh] bg-white neo-border rounded-2xl shadow-xl p-4 flex flex-col gap-4">
@@ -36,8 +102,19 @@ export const WhisperModal: FC<WhisperModalProps> = ({ target, onClose }) => {
           </button>
         </div>
         <div className="border-t border-gray-200 pt-4">
-          <AudioRecorder maxDurationMs={45000} />
+          <AudioRecorder
+            maxDurationMs={45000}
+            onRecordingReady={handleRecordingReady}
+            onSendRequested={handleSendRequested}
+            isChecking={isChecking}
+          />
         </div>
+        {blockedMessage && (
+          <p className="text-xs text-red-500 text-center">{blockedMessage}</p>
+        )}
+        {errorMessage && !blockedMessage && (
+          <p className="text-xs text-red-500 text-center">{errorMessage}</p>
+        )}
       </div>
     </div>
   );
