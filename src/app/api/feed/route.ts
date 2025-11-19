@@ -17,8 +17,6 @@ interface FeedProfileSummary {
   photoURL: string | null;
 }
 
-const DAILY_FEED_LIMIT = 20;
-
 export async function GET(request: NextRequest) {
   try {
     const authHeader = request.headers.get("authorization") || "";
@@ -41,23 +39,7 @@ export async function GET(request: NextRequest) {
     const profile = userSnap.data() as UserProfile;
 
     if (!profile.isOpenToWhispers) {
-      return NextResponse.json({ profiles: [], remainingQuota: 0, openToWhispers: false });
-    }
-
-    const today = new Date().toISOString().slice(0, 10);
-    let feedDay = profile.feedDay || null;
-    let feedServedCount = profile.feedServedCount ?? 0;
-
-    if (feedDay !== today) {
-      feedDay = today;
-      feedServedCount = 0;
-      await userRef.update({ feedDay, feedServedCount });
-    }
-
-    const remainingQuota = Math.max(0, DAILY_FEED_LIMIT - feedServedCount);
-
-    if (remainingQuota <= 0) {
-      return NextResponse.json({ profiles: [], remainingQuota, openToWhispers: true });
+      return NextResponse.json({ profiles: [], remainingQuota: null, openToWhispers: false });
     }
 
     const seenUserIds = profile.seenUserIds || [];
@@ -100,14 +82,11 @@ export async function GET(request: NextRequest) {
       })
       .sort((a, b) => b.score - a.score);
 
-    const selected = scored.slice(0, remainingQuota).map((item) => item.summary);
-
-    const newServedCount = feedServedCount + selected.length;
-    await userRef.update({ feedServedCount: newServedCount, feedDay });
+    const selected = scored.slice(0, 50).map((item) => item.summary);
 
     return NextResponse.json({
       profiles: selected,
-      remainingQuota: Math.max(0, DAILY_FEED_LIMIT - newServedCount),
+      remainingQuota: null,
       openToWhispers: true,
     });
   } catch (error) {
