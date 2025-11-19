@@ -4,9 +4,11 @@ import type { FC } from "react";
 import { useState } from "react";
 import { AudioRecorder } from "@/components/whisper/AudioRecorder";
 import { useAuth } from "@/context/AuthContext";
+import { uploadWhisperAudio } from "@/lib/storage";
 
 export interface WhisperModalProps {
   target: {
+    uid: string;
     displayName: string;
     age: number;
     location: {
@@ -23,11 +25,15 @@ export const WhisperModal: FC<WhisperModalProps> = ({ target, onClose }) => {
   const [isChecking, setIsChecking] = useState(false);
   const [blockedMessage, setBlockedMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [limitMessage, setLimitMessage] = useState<string | null>(null);
 
   const handleRecordingReady = (blob: Blob) => {
     setRecordingBlob(blob);
     setBlockedMessage(null);
     setErrorMessage(null);
+    setSuccessMessage(null);
+    setLimitMessage(null);
   };
 
   const handleSendRequested = async () => {
@@ -38,6 +44,8 @@ export const WhisperModal: FC<WhisperModalProps> = ({ target, onClose }) => {
     setIsChecking(true);
     setBlockedMessage(null);
     setErrorMessage(null);
+    setSuccessMessage(null);
+    setLimitMessage(null);
 
     try {
       const idToken = await user.getIdToken();
@@ -62,7 +70,48 @@ export const WhisperModal: FC<WhisperModalProps> = ({ target, onClose }) => {
       if (data.ok && data.decision === "allow") {
         setBlockedMessage(null);
         setErrorMessage(null);
-        return;
+
+        try {
+          const audioUrl = await uploadWhisperAudio(user.uid, recordingBlob);
+
+          const sendResponse = await fetch("/api/whispers/send", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${idToken}`,
+            },
+            body: JSON.stringify({
+              receiverId: target.uid,
+              audioUrl,
+            }),
+          });
+
+          const sendData = await sendResponse.json().catch(() => null);
+
+          if (!sendResponse.ok || !sendData) {
+            setErrorMessage("We couldn't send this whisper. Please try again.");
+            return;
+          }
+
+          if (sendData.ok) {
+            setSuccessMessage("Whisper sent—fingers crossed!");
+            return;
+          }
+
+          if (sendData.code === "LIMIT_EXCEEDED") {
+            setLimitMessage(
+              sendData.message ||
+                "Daily whispers maxed—come back tomorrow for more magic!",
+            );
+            return;
+          }
+
+          setErrorMessage("We couldn't send this whisper. Please try again.");
+          return;
+        } catch (_uploadError) {
+          setErrorMessage("We couldn't send this whisper. Please try again.");
+          return;
+        }
       }
 
       if (data.decision === "block") {
@@ -114,6 +163,12 @@ export const WhisperModal: FC<WhisperModalProps> = ({ target, onClose }) => {
         )}
         {errorMessage && !blockedMessage && (
           <p className="text-xs text-red-500 text-center">{errorMessage}</p>
+        )}
+        {successMessage && !blockedMessage && !errorMessage && (
+          <p className="text-xs text-green-600 text-center">{successMessage}</p>
+        )}
+        {limitMessage && !blockedMessage && !errorMessage && !successMessage && (
+          <p className="text-xs text-gray-500 text-center">{limitMessage}</p>
         )}
       </div>
     </div>

@@ -37,3 +37,12 @@ export interface OnboardingFormData {
   photoFiles: File[]; // For handling uploads
   photoPreviews: string[]; // For showing previews
 }
+
+export interface Whisper {
+  id: string;
+  senderId: string;
+  receiverId: string;
+  audioUrl: string;
+  status: "pending" | "approved" | "declined" | "expired";
+  createdAt: number; // Timestamp
+}

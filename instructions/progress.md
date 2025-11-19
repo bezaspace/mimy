@@ -41,5 +41,11 @@
 - [x] **3.1.2 Whisper Modal Integration**
   - `Whisper Hi` on feed cards opens `WhisperModal` with the recorder.
   - Supports preview playback, re-record, and a "Send" action wired through safety check.
- - [x] **3.2.1 Whisper Safety Layer (Gemini on Vertex AI)**
+- [x] **3.2.1 Whisper Safety Layer (Gemini on Vertex AI)**
   - Implemented `/api/whispers/safety` using Gemini 2.5 Flash-Lite on Vertex AI to moderate raw audio before sending.
+- [x] **3.3.1 Whispers Collection & Send API**
+  - Added `Whisper` type and Firestore `whispers` collection persisted via `/api/whispers/send`.
+- [x] **3.3.2 Daily Whisper Limit (5/day)**
+  - Enforced 5/day sending limit using `dailyWhisperCount` and `lastWhisperDate` in a Firestore transaction.
+- [x] **3.3.3 Frontend Send Flow & Feedback**
+  - `WhisperModal` uploads audio, triggers safety check, calls send API, and shows success/limit messages.

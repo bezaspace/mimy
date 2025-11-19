@@ -46,7 +46,7 @@ This document outlines the chronological feature development order for MayIMeetY
     3.2.3 **UI:** Loading states ("Vibe checking...") and rejection modals.
 3.  **Sending Logic**
     3.3.1 **Database:** Create Firestore `whispers` collection (senderId, receiverId, audioUrl, status).
-    3.3.2 **Constraints:** Check/Update daily limit (5/day) in user document.
+    3.3.2 **Constraints:** Check/Update daily limit (5/day) in user doc ument.
     3.3.3 **Frontend:** "Send" action with success feedback.
 
 ## Phase 4: Connection & Response (Epic 3)
