@@ -49,3 +49,17 @@
   - Enforced 5/day sending limit using `dailyWhisperCount` and `lastWhisperDate` in a Firestore transaction.
 - [x] **3.3.3 Frontend Send Flow & Feedback**
   - `WhisperModal` uploads audio, triggers safety check, calls send API, and shows success/limit messages.
+
+## Phase 4: Connection & Response (Epic 3)
+- [x] **4.1.1 Inbox System API**
+  - Implemented `/api/whispers/inbox` to return pending whispers for the current user with unread count and `openToWhispers` flag.
+- [x] **4.1.2 Inbox List UI**
+  - Added `/whispers` inbox page showing incoming whispers list, unread state ("New whisper" vs "Played"), and empty/inactive states.
+- [x] **4.2.1 Full-screen Player Overlay**
+  - Implemented overlay on `/whispers` that shows sender info and a profile section before playback.
+- [x] **4.2.2 Scroll-gated Playback Logic**
+  - Require scrolling the profile container to the bottom before enabling the `Play Whisper` button.
+- [x] **4.2.3 Approve / Decline Actions**
+  - Wired `/api/whispers/play` and `/api/whispers/decision` so approve creates a `matches` document and both decisions remove the whisper from the inbox view.
+- [ ] **4.3.1 Sender Dashboard ("My Whispers")**
+  - `/api/whispers/my` and `/my-whispers` page to track sent whispers, status (pending/approved/declined/expired), and basic summary stats.

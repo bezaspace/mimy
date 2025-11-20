@@ -53,7 +53,7 @@ This document outlines the chronological feature development order for MayIMeetY
 **Goal:** Complete the feedback loop; receivers can accept or reject.
 
 1.  **Inbox System**
-    4.1.1 **Database:** Listen to Firestore `whispers` where receiverId == currentUserId AND status == 'pending'.
+    4.1.1 **Database:** Listen to Firestore `whispers` where receiverId ==  currentUserId AND status == 'pending'.
     4.1.2 **Frontend:** Inbox list view with unread indicators.
 2.  **Playback & Decision**
     4.2.1 **UI:** Full-screen player overlay.

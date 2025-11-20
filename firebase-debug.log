@@ -1,8 +1,0 @@
-[debug] [2025-11-19T12:59:29.780Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2025-11-19T12:59:29.783Z] > authorizing via signed-in user (admin@mayimeetyou.app)
-[debug] [2025-11-19T12:59:29.794Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2025-11-19T12:59:29.794Z] > authorizing via signed-in user (admin@mayimeetyou.app)
-[debug] [2025-11-19T12:59:29.980Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2025-11-19T12:59:29.980Z] > authorizing via signed-in user (admin@mayimeetyou.app)
-[debug] [2025-11-19T12:59:29.981Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2025-11-19T12:59:29.981Z] > authorizing via signed-in user (admin@mayimeetyou.app)

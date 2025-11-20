@@ -19,23 +19,31 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // Fetch all whispers for the user and sort in-memory to avoid composite index requirement
     const whispersSnap = await adminDb
       .collection("whispers")
       .where("senderId", "==", uid)
-      .orderBy("createdAt", "desc")
-      .limit(100)
       .get();
+
+    const allWhispers: any[] = [];
+    whispersSnap.forEach((doc) => {
+      allWhispers.push({ ...doc.data(), _docId: doc.id });
+    });
+
+    // Sort by createdAt desc
+    allWhispers.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+    // Take top 100
+    const recentWhispers = allWhispers.slice(0, 100);
 
     const receiverIds = new Set<string>();
     const whisperItems: any[] = [];
 
-    whispersSnap.forEach((doc) => {
-      const data = doc.data() as any;
-
+    for (const data of recentWhispers) {
       receiverIds.add(data.receiverId);
 
       whisperItems.push({
-        id: data.id || doc.id,
+        id: data.id || data._docId,
         receiverId: data.receiverId,
         status: data.status || "pending",
         createdAt: data.createdAt || 0,
@@ -56,7 +64,7 @@ export async function GET(request: NextRequest) {
             ? data.expiresAt
             : null,
       });
-    });
+    }
 
     const receivers: Record<string, any> = {};
 
