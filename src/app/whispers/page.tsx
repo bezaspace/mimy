@@ -84,6 +84,23 @@ export default function WhispersPage() {
     }
   }, [user, profile]);
 
+  useEffect(() => {
+    if (!activeItem) {
+      return;
+    }
+
+    const el = profileScrollRef.current;
+    if (!el) {
+      return;
+    }
+
+    if (el.scrollHeight <= el.clientHeight + 1) {
+      setHasScrolledProfile(true);
+    } else {
+      setHasScrolledProfile(false);
+    }
+  }, [activeItem]);
+
   const handleOpenItem = (item: InboxItem) => {
     setActiveItem(item);
     setHasScrolledProfile(false);
