@@ -95,6 +95,7 @@ export async function POST(request: NextRequest) {
         audioUrl,
         status: "pending",
         createdAt: now,
+        expiresAt: now + 48 * 60 * 60 * 1000,
       });
 
       return {

@@ -30,11 +30,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setLoading(true);
+      console.log("Auth state changed, currentUser uid =", currentUser?.uid);
       setUser(currentUser);
-      
+
       if (currentUser) {
         try {
           const userProfile = await getUserProfile(currentUser.uid);
+          console.log("Loaded userProfile from Firestore:", userProfile);
           setProfile(userProfile);
         } catch (error) {
           console.error("Error fetching user profile in AuthContext:", error);
@@ -43,7 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       } else {
         setProfile(null);
       }
-      
+
       setLoading(false);
     });
 

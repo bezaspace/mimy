@@ -45,4 +45,17 @@ export interface Whisper {
   audioUrl: string;
   status: "pending" | "approved" | "declined" | "expired";
   createdAt: number; // Timestamp
+  playedAt?: number | null; // Timestamp when receiver first played the whisper
+  approvedAt?: number | null; // Timestamp when receiver approved the whisper
+  declinedAt?: number | null; // Timestamp when receiver declined the whisper
+  expiresAt: number; // Timestamp when whisper expires from inbox
+}
+
+export interface Match {
+  id: string;
+  whisperId: string;
+  userAId: string; // Sender
+  userBId: string; // Receiver
+  createdAt: number; // Timestamp
+  status: "active" | "closed";
 }

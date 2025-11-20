@@ -545,6 +545,23 @@ export default function SettingsPage() {
             />
           </button>
         </section>
+
+        <section className="neo-border rounded-xl p-4 bg-gray-50 flex items-center justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase text-gray-500">Insights</p>
+            <p className="mt-1 font-medium text-gray-800">My Whispers</p>
+            <p className="text-xs text-gray-500 max-w-sm mt-1">
+              See how many of your whispers have been played or approved.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => router.push("/my-whispers")}
+            className="px-3 py-1 rounded-lg bg-white neo-border text-xs font-semibold hover:bg-gray-100"
+          >
+            Open
+          </button>
+        </section>
       </div>
     </div>
   );

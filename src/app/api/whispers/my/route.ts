@@ -1,0 +1,127 @@
+import { NextRequest, NextResponse } from "next/server";
+import { adminAuth, adminDb } from "@/lib/firebaseAdmin";
+
+export const runtime = "nodejs";
+
+export async function GET(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get("authorization") || "";
+    const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
+
+    if (!token) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const decoded = await adminAuth.verifyIdToken(token);
+    const uid = decoded.uid as string | undefined;
+
+    if (!uid) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const whispersSnap = await adminDb
+      .collection("whispers")
+      .where("senderId", "==", uid)
+      .orderBy("createdAt", "desc")
+      .limit(100)
+      .get();
+
+    const receiverIds = new Set<string>();
+    const whisperItems: any[] = [];
+
+    whispersSnap.forEach((doc) => {
+      const data = doc.data() as any;
+
+      receiverIds.add(data.receiverId);
+
+      whisperItems.push({
+        id: data.id || doc.id,
+        receiverId: data.receiverId,
+        status: data.status || "pending",
+        createdAt: data.createdAt || 0,
+        playedAt:
+          typeof data.playedAt === "number"
+            ? data.playedAt
+            : null,
+        approvedAt:
+          typeof data.approvedAt === "number"
+            ? data.approvedAt
+            : null,
+        declinedAt:
+          typeof data.declinedAt === "number"
+            ? data.declinedAt
+            : null,
+        expiresAt:
+          typeof data.expiresAt === "number"
+            ? data.expiresAt
+            : null,
+      });
+    });
+
+    const receivers: Record<string, any> = {};
+
+    await Promise.all(
+      Array.from(receiverIds).map(async (receiverId) => {
+        const receiverRef = adminDb.collection("users").doc(receiverId);
+        const receiverSnap = await receiverRef.get();
+
+        if (receiverSnap.exists) {
+          const receiverData = receiverSnap.data() as any;
+          receivers[receiverId] = {
+            uid: receiverData.uid || receiverId,
+            displayName: receiverData.displayName || "",
+            age: receiverData.age || 0,
+            location: receiverData.location || { city: "", country: "" },
+            photoURL:
+              Array.isArray(receiverData.photoURLs) && receiverData.photoURLs.length > 0
+                ? receiverData.photoURLs[0]
+                : null,
+          };
+        }
+      }),
+    );
+
+    const items = whisperItems.map((w) => {
+      const receiver = receivers[w.receiverId] || {
+        uid: w.receiverId,
+        displayName: "",
+        age: 0,
+        location: { city: "", country: "" },
+        photoURL: null,
+      };
+
+      return {
+        id: w.id,
+        receiver,
+        status: w.status,
+        createdAt: w.createdAt,
+        playedAt: w.playedAt,
+        approvedAt: w.approvedAt,
+        declinedAt: w.declinedAt,
+        expiresAt: w.expiresAt,
+      };
+    });
+
+    const totalSent = items.length;
+    const totalPlayed = items.filter((item) => item.playedAt).length;
+    const totalApproved = items.filter((item) => item.status === "approved").length;
+
+    return NextResponse.json(
+      {
+        items,
+        summary: {
+          totalSent,
+          totalPlayed,
+          totalApproved,
+        },
+      },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error("Error fetching my whispers", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}

@@ -1,0 +1,787 @@
+[dotenv@17.2.3] injecting env (10) from .env.local -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+Project ID (from Admin): mayimeetyou
+Dumping all root collections...
+
+=== Collection: users ===
+  Document: users/D0AiOHQZ2EUsjBc6CSRMnTt9Mto2
+  {
+    "uid": "D0AiOHQZ2EUsjBc6CSRMnTt9Mto2",
+    "displayName": "Sai Harsha Tummala",
+    "age": 30,
+    "gender": "Male",
+    "orientation": "Straight",
+    "location": {
+      "city": "vijayawada",
+      "country": "Unknown"
+    },
+    "bio": "lol",
+    "interests": [
+      "Coffee",
+      "Gaming",
+      "Cooking"
+    ],
+    "dealBreakers": [
+      "Drugs"
+    ],
+    "photoURLs": [
+      "https://firebasestorage.googleapis.com/v0/b/mayimeetyou.firebasestorage.app/o/users%2FD0AiOHQZ2EUsjBc6CSRMnTt9Mto2%2Fphotos%2F1763556197889_JimSimmons.webp?alt=media&token=20bab563-50b5-46e4-a1fa-563381a1cbed"
+    ],
+    "isProfileComplete": true,
+    "createdAt": 1763556200497,
+    "updatedAt": 1763556200497,
+    "dailyWhisperCount": 0,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "feedDay": null,
+    "feedServedCount": 0,
+    "seenUserIds": []
+  }
+  Document: users/Snq8qUyXE3Q0gXzFfV7ooysOuXs2
+  {
+    "uid": "Snq8qUyXE3Q0gXzFfV7ooysOuXs2",
+    "displayName": "happy",
+    "age": 31,
+    "gender": "Male",
+    "orientation": "Straight",
+    "location": {
+      "city": "Vinukonda",
+      "country": "Unknown"
+    },
+    "bio": "Whatever life thorws at me",
+    "interests": [
+      "Coffee",
+      "Art",
+      "Movies",
+      "Foodie",
+      "Tech"
+    ],
+    "dealBreakers": [
+      "Drugs"
+    ],
+    "photoURLs": [
+      "https://firebasestorage.googleapis.com/v0/b/mayimeetyou.firebasestorage.app/o/users%2FSnq8qUyXE3Q0gXzFfV7ooysOuXs2%2Fphotos%2F1763556110505_JimSimmons.webp?alt=media&token=914fba78-ef34-4850-a435-4b8c6415f406"
+    ],
+    "isProfileComplete": true,
+    "createdAt": 1763556114476,
+    "updatedAt": 1763556114476,
+    "isOpenToWhispers": true,
+    "feedDay": null,
+    "feedServedCount": 0,
+    "seenUserIds": [],
+    "lastWhisperDate": 1763556146279,
+    "dailyWhisperCount": 1
+  }
+  Document: users/seed_user_1
+  {
+    "orientation": "Pansexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Non-binary",
+    "displayName": "Seed User 1",
+    "bio": "I am Seed User 1 from Delhi. I love Music and Movies.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_1",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Delhi"
+    },
+    "dealBreakers": [
+      "No pets",
+      "Wants kids"
+    ],
+    "interests": [
+      "Music",
+      "Movies",
+      "Books",
+      "Coffee"
+    ],
+    "age": 23,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_10
+  {
+    "orientation": "Gay",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Non-binary",
+    "displayName": "Seed User 10",
+    "bio": "I am Seed User 10 from Bengaluru. I love Travel and Hiking.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_10",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Bengaluru"
+    },
+    "dealBreakers": [
+      "No smokers"
+    ],
+    "interests": [
+      "Travel",
+      "Hiking",
+      "Coffee",
+      "Music"
+    ],
+    "age": 22,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_11
+  {
+    "orientation": "Bisexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Non-binary",
+    "displayName": "Seed User 11",
+    "bio": "I am Seed User 11 from Hyderabad. I love Board Games and Music.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_11",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Hyderabad"
+    },
+    "dealBreakers": [
+      "No pets",
+      "Night owl"
+    ],
+    "interests": [
+      "Board Games",
+      "Music",
+      "Startups",
+      "Yoga",
+      "Cooking"
+    ],
+    "age": 23,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_12
+  {
+    "orientation": "Bisexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Male",
+    "displayName": "Seed User 12",
+    "bio": "I am Seed User 12 from Delhi. I love Books and Hiking.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_12",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Delhi"
+    },
+    "dealBreakers": [
+      "No pets"
+    ],
+    "interests": [
+      "Books",
+      "Hiking",
+      "Cooking"
+    ],
+    "age": 24,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_13
+  {
+    "orientation": "Bisexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Non-binary",
+    "displayName": "Seed User 13",
+    "bio": "I am Seed User 13 from Bengaluru. I love Books and Travel.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_13",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Bengaluru"
+    },
+    "dealBreakers": [
+      "Wants kids",
+      "Night owl"
+    ],
+    "interests": [
+      "Books",
+      "Travel",
+      "Movies",
+      "Hiking"
+    ],
+    "age": 25,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_14
+  {
+    "orientation": "Pansexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Non-binary",
+    "displayName": "Seed User 14",
+    "bio": "I am Seed User 14 from Pune. I love Books and Board Games.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_14",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Pune"
+    },
+    "dealBreakers": [
+      "Wants kids"
+    ],
+    "interests": [
+      "Books",
+      "Board Games",
+      "Travel",
+      "Music",
+      "Cooking"
+    ],
+    "age": 26,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_15
+  {
+    "orientation": "Pansexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Non-binary",
+    "displayName": "Seed User 15",
+    "bio": "I am Seed User 15 from Chennai. I love Startups and Movies.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_15",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Chennai"
+    },
+    "dealBreakers": [
+      "No smokers",
+      "Night owl"
+    ],
+    "interests": [
+      "Startups",
+      "Movies",
+      "Coffee"
+    ],
+    "age": 27,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_16
+  {
+    "orientation": "Pansexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Female",
+    "displayName": "Seed User 16",
+    "bio": "I am Seed User 16 from Bengaluru. I love Movies and Music.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_16",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Bengaluru"
+    },
+    "dealBreakers": [
+      "Wants kids"
+    ],
+    "interests": [
+      "Movies",
+      "Music",
+      "Board Games",
+      "Cooking"
+    ],
+    "age": 28,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_17
+  {
+    "orientation": "Pansexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Male",
+    "displayName": "Seed User 17",
+    "bio": "I am Seed User 17 from Kolkata. I love Movies and Yoga.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_17",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Kolkata"
+    },
+    "dealBreakers": [
+      "No pets",
+      "No smokers"
+    ],
+    "interests": [
+      "Movies",
+      "Yoga",
+      "Board Games",
+      "Coffee",
+      "Music"
+    ],
+    "age": 29,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_18
+  {
+    "orientation": "Pansexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Male",
+    "displayName": "Seed User 18",
+    "bio": "I am Seed User 18 from Delhi. I love Travel and Hiking.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_18",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Delhi"
+    },
+    "dealBreakers": [
+      "Night owl"
+    ],
+    "interests": [
+      "Travel",
+      "Hiking",
+      "Cooking"
+    ],
+    "age": 30,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_19
+  {
+    "orientation": "Bisexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Male",
+    "displayName": "Seed User 19",
+    "bio": "I am Seed User 19 from Kolkata. I love Yoga and Hiking.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_19",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Kolkata"
+    },
+    "dealBreakers": [
+      "No smokers",
+      "Night owl"
+    ],
+    "interests": [
+      "Yoga",
+      "Hiking",
+      "Movies",
+      "Books"
+    ],
+    "age": 31,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_2
+  {
+    "orientation": "Bisexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Female",
+    "displayName": "Seed User 2",
+    "bio": "I am Seed User 2 from Mumbai. I love Travel and Yoga.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_2",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Mumbai"
+    },
+    "dealBreakers": [
+      "No pets"
+    ],
+    "interests": [
+      "Travel",
+      "Yoga",
+      "Board Games",
+      "Movies",
+      "Startups"
+    ],
+    "age": 24,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_20
+  {
+    "orientation": "Bisexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Non-binary",
+    "displayName": "Seed User 20",
+    "bio": "I am Seed User 20 from Goa. I love Board Games and Travel.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_20",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Goa"
+    },
+    "dealBreakers": [
+      "Wants kids"
+    ],
+    "interests": [
+      "Board Games",
+      "Travel",
+      "Movies",
+      "Cooking",
+      "Coffee"
+    ],
+    "age": 22,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_3
+  {
+    "orientation": "Bisexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Male",
+    "displayName": "Seed User 3",
+    "bio": "I am Seed User 3 from Hyderabad. I love Coffee and Movies.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_3",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Hyderabad"
+    },
+    "dealBreakers": [
+      "No smokers",
+      "Night owl"
+    ],
+    "interests": [
+      "Coffee",
+      "Movies",
+      "Board Games"
+    ],
+    "age": 25,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_4
+  {
+    "orientation": "Pansexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Female",
+    "displayName": "Seed User 4",
+    "bio": "I am Seed User 4 from Delhi. I love Music and Board Games.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_4",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Delhi"
+    },
+    "dealBreakers": [
+      "Night owl"
+    ],
+    "interests": [
+      "Music",
+      "Board Games",
+      "Travel",
+      "Coffee"
+    ],
+    "age": 26,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_5
+  {
+    "orientation": "Pansexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Non-binary",
+    "displayName": "Seed User 5",
+    "bio": "I am Seed User 5 from Delhi. I love Cooking and Music.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_5",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Delhi"
+    },
+    "dealBreakers": [
+      "Night owl",
+      "No smokers"
+    ],
+    "interests": [
+      "Cooking",
+      "Music",
+      "Hiking",
+      "Coffee",
+      "Yoga"
+    ],
+    "age": 27,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_6
+  {
+    "orientation": "Gay",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Non-binary",
+    "displayName": "Seed User 6",
+    "bio": "I am Seed User 6 from Mumbai. I love Startups and Yoga.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_6",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Mumbai"
+    },
+    "dealBreakers": [
+      "No smokers"
+    ],
+    "interests": [
+      "Startups",
+      "Yoga",
+      "Coffee"
+    ],
+    "age": 28,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_7
+  {
+    "orientation": "Straight",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Non-binary",
+    "displayName": "Seed User 7",
+    "bio": "I am Seed User 7 from Mumbai. I love Yoga and Music.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_7",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Mumbai"
+    },
+    "dealBreakers": [
+      "No smokers",
+      "Night owl"
+    ],
+    "interests": [
+      "Yoga",
+      "Music",
+      "Books",
+      "Movies"
+    ],
+    "age": 29,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_8
+  {
+    "orientation": "Gay",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Non-binary",
+    "displayName": "Seed User 8",
+    "bio": "I am Seed User 8 from Chennai. I love Hiking and Cooking.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_8",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Chennai"
+    },
+    "dealBreakers": [
+      "Night owl"
+    ],
+    "interests": [
+      "Hiking",
+      "Cooking",
+      "Music",
+      "Board Games",
+      "Books"
+    ],
+    "age": 30,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+  Document: users/seed_user_9
+  {
+    "orientation": "Pansexual",
+    "photoURLs": [
+      "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400"
+    ],
+    "gender": "Male",
+    "displayName": "Seed User 9",
+    "bio": "I am Seed User 9 from Bengaluru. I love Startups and Yoga.",
+    "feedDay": null,
+    "lastWhisperDate": null,
+    "isOpenToWhispers": true,
+    "dailyWhisperCount": 0,
+    "createdAt": 1763520757574,
+    "uid": "seed_user_9",
+    "seenUserIds": [],
+    "feedServedCount": 0,
+    "location": {
+      "country": "India",
+      "city": "Bengaluru"
+    },
+    "dealBreakers": [
+      "Night owl",
+      "No smokers"
+    ],
+    "interests": [
+      "Startups",
+      "Yoga",
+      "Movies"
+    ],
+    "age": 31,
+    "isProfileComplete": true,
+    "updatedAt": 1763520757574
+  }
+
+=== Collection: whispers ===
+  Document: whispers/D2poJZqSM7Ft5P7oNHzJ
+  {
+    "id": "D2poJZqSM7Ft5P7oNHzJ",
+    "senderId": "Snq8qUyXE3Q0gXzFfV7ooysOuXs2",
+    "receiverId": "D0AiOHQZ2EUsjBc6CSRMnTt9Mto2",
+    "audioUrl": "https://firebasestorage.googleapis.com/v0/b/mayimeetyou.firebasestorage.app/o/whispers%2FSnq8qUyXE3Q0gXzFfV7ooysOuXs2%2F1763556143429.webm?alt=media&token=8b655441-27d1-4b8d-b46e-c804762908d4",
+    "status": "pending",
+    "createdAt": 1763556146279,
+    "expiresAt": 1763728946279
+  }
+  Document: whispers/sZ8tqzye5L5sgwPt4ist
+  {
+    "id": "sZ8tqzye5L5sgwPt4ist",
+    "senderId": "D0AiOHQZ2EUsjBc6CSRMnTt9Mto2",
+    "receiverId": "seed_user_15",
+    "audioUrl": "https://firebasestorage.googleapis.com/v0/b/mayimeetyou.firebasestorage.app/o/whispers%2FD0AiOHQZ2EUsjBc6CSRMnTt9Mto2%2F1763553558059.webm?alt=media&token=d05211c5-a00f-4441-af03-7e04ffce0d5b",
+    "status": "pending",
+    "createdAt": 1763553561741
+  }
+
+=== Done dumping Firestore ===

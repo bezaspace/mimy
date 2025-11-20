@@ -13,6 +13,7 @@ export default function Home() {
   const [feedError, setFeedError] = useState<string | null>(null);
   const [remainingQuota, setRemainingQuota] = useState<number | null>(null);
   const [activeWhisperTarget, setActiveWhisperTarget] = useState<FeedProfileSummary | null>(null);
+  const [inboxUnread, setInboxUnread] = useState<number | null>(null);
 
   // Redirect logic for authenticated users without profiles
   useEffect(() => {
@@ -20,6 +21,42 @@ export default function Home() {
       router.push("/onboarding");
     }
   }, [user, profile, loading, router]);
+
+  useEffect(() => {
+    const loadInboxUnread = async () => {
+      if (!user || !profile) {
+        return;
+      }
+
+      try {
+        const idToken = await user.getIdToken();
+        const response = await fetch("/api/whispers/inbox", {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          return;
+        }
+
+        const data = await response.json();
+
+        if (typeof data.unreadCount === "number") {
+          setInboxUnread(data.unreadCount);
+        } else {
+          setInboxUnread(null);
+        }
+      } catch (error) {
+        console.error("Error loading inbox unread count", error);
+        setInboxUnread(null);
+      }
+    };
+
+    if (user && profile) {
+      loadInboxUnread();
+    }
+  }, [user, profile]);
 
   useEffect(() => {
     const loadFeed = async () => {
@@ -118,6 +155,18 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => router.push("/whispers")}
+              className="relative text-sm text-gray-500 hover:text-gray-800"
+            >
+              Whispers
+              {inboxUnread && inboxUnread > 0 && (
+                <span className="ml-1 inline-flex items-center justify-center px-1.5 py-0.5 rounded-full bg-primary text-[10px] font-semibold text-white">
+                  {inboxUnread}
+                </span>
+              )}
+            </button>
             <button
               onClick={() => router.push("/settings")}
               className="text-sm text-gray-500 hover:text-gray-800"
