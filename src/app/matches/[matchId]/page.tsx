@@ -204,7 +204,14 @@ export default function MatchChatPage() {
   return (
     <div className="flex min-h-screen flex-col items-center bg-gray-50 p-4">
       <header className="w-full max-w-md flex justify-between items-center p-4 bg-white rounded-xl shadow-sm mb-2">
-        <div className="flex items-center gap-3">
+        <div
+          className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+          onClick={() => {
+            if (otherUser) {
+              router.push(`/profile/${otherUser.uid}`);
+            }
+          }}
+        >
           {otherPhoto && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -214,7 +221,12 @@ export default function MatchChatPage() {
             />
           )}
           <div>
-            <h1 className="font-bold text-gray-800 text-sm">Chat with {otherDisplayName}</h1>
+            <h1 className="font-bold text-gray-800 text-sm flex items-center gap-1">
+              Chat with {otherDisplayName}
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3 text-gray-400">
+                <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
+              </svg>
+            </h1>
             {otherUser?.location?.city && (
               <p className="text-xs text-gray-500">{otherUser.location.city}</p>
             )}
@@ -245,8 +257,8 @@ export default function MatchChatPage() {
               >
                 <div
                   className={`max-w-[70%] px-3 py-2 rounded-2xl text-sm leading-snug ${isMine
-                      ? "bg-primary text-white rounded-br-sm"
-                      : "bg-gray-100 text-gray-800 rounded-bl-sm"
+                    ? "bg-primary text-white rounded-br-sm"
+                    : "bg-gray-100 text-gray-800 rounded-bl-sm"
                     }`}
                 >
                   {msg.text}

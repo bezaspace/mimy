@@ -250,16 +250,22 @@ interface FeedCardProps {
 
 function FeedCard({ profile, onPass, onWhisper }: FeedCardProps) {
   const [revealed, setRevealed] = useState(false);
+  const router = useRouter();
 
   const handleReveal = () => {
     setRevealed(true);
+  };
+
+  const goToProfile = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    router.push(`/profile/${profile.uid}`);
   };
 
   return (
     <div className="bg-white p-4 rounded-2xl shadow-lg neo-border">
       <div className="flex flex-col gap-3">
         <div
-          className="w-full h-56 rounded-xl overflow-hidden relative cursor-pointer"
+          className="w-full h-56 rounded-xl overflow-hidden relative cursor-pointer group"
           onClick={handleReveal}
         >
           {profile.photoURL ? (
@@ -274,16 +280,37 @@ function FeedCard({ profile, onPass, onWhisper }: FeedCardProps) {
               No photo
             </div>
           )}
+
+          {/* View Profile Overlay Button */}
+          {revealed && (
+            <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button
+                onClick={goToProfile}
+                className="bg-white/90 hover:bg-white text-gray-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm backdrop-blur-sm flex items-center gap-1"
+              >
+                View Profile
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3">
+                  <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          )}
         </div>
         <div className="flex justify-between items-center">
-          <div>
-            <h2 className="font-bold text-lg text-gray-900">
+          <div
+            className="cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={goToProfile}
+          >
+            <h2 className="font-bold text-lg text-gray-900 flex items-center gap-1">
               {profile.displayName}, {profile.age}
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-gray-400">
+                <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
+              </svg>
             </h2>
             <p className="text-xs text-gray-500">{profile.location.city}</p>
           </div>
         </div>
-        <p className="text-sm text-gray-700">{profile.bio}</p>
+        <p className="text-sm text-gray-700 line-clamp-3">{profile.bio}</p>
         {profile.interests.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-1">
             {profile.interests.slice(0, 3).map((interest) => (
@@ -294,6 +321,11 @@ function FeedCard({ profile, onPass, onWhisper }: FeedCardProps) {
                 {interest}
               </span>
             ))}
+            {profile.interests.length > 3 && (
+              <span className="px-2 py-1 text-xs rounded-full bg-gray-50 text-gray-500 border border-gray-100">
+                +{profile.interests.length - 3}
+              </span>
+            )}
           </div>
         )}
         <div className="mt-4 flex justify-between items-center">
