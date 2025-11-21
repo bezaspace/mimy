@@ -63,7 +63,6 @@
   - Wired `/api/whispers/play` and `/api/whispers/decision` so approve creates a `matches` document and both decisions remove the whisper from the inbox view.
 - [x] **4.3.1 Sender Dashboard ("My Whispers")**
   - `/api/whispers/my` and `/my-whispers` page to track sent whispers, status (pending/approved/declined/expired), and basic summary stats.
-
 ## Phase 5: Engagement (Chat) (Epic 4)
 - [x] **5.1.1 Chat Infrastructure**
   - Created Firestore `messages` sub-collection under `matches` with real-time listeners.

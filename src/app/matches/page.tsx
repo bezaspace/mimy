@@ -173,7 +173,7 @@ export default function MatchesPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-gray-50 p-4">
+    <div className="flex min-h-screen flex-col items-center bg-gray-50 p-4 pb-24">
       <Navbar />
 
       <main className="w-full max-w-md mt-2">

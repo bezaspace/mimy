@@ -212,7 +212,7 @@ export default function WhispersPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-gray-50 p-4">
+    <div className="flex min-h-screen flex-col items-center bg-gray-50 p-4 pb-24">
       {activeItem && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
           <div className="w-full max-w-md max-h-[90vh] bg-white neo-border rounded-2xl shadow-xl p-4 flex flex-col gap-4">

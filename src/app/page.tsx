@@ -110,7 +110,7 @@ export default function Home() {
   // Authenticated & Onboarded State (The Feed - Placeholder)
   if (user && profile) {
     return (
-      <div className="flex min-h-screen flex-col items-center bg-gray-50 p-4">
+      <div className="flex min-h-screen flex-col items-center bg-gray-50 p-4 pb-24">
         {activeWhisperTarget && (
           <WhisperModal
             target={activeWhisperTarget}

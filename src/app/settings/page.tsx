@@ -238,7 +238,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 flex flex-col items-center">
+    <div className="min-h-screen bg-gray-50 py-8 px-4 pb-24 flex flex-col items-center">
       <Navbar />
       <div className="w-full max-w-md bg-white neo-border rounded-2xl p-6 shadow-lg space-y-6">
         <h1 className="text-2xl font-bold mb-2 text-gray-900">Your Profile</h1>
