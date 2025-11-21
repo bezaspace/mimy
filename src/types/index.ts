@@ -58,4 +58,18 @@ export interface Match {
   userBId: string; // Receiver
   createdAt: number; // Timestamp
   status: "active" | "closed";
+  participantIds?: string[];
+  lastMessage?: string | null;
+  lastMessageAt?: number | null;
+  lastMessageSenderId?: string | null;
+}
+
+export interface Message {
+  id: string;
+  matchId: string;
+  senderId: string;
+  receiverId: string;
+  type: "text";
+  text: string;
+  createdAt: number; // Timestamp
 }

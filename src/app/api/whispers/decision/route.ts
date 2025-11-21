@@ -74,6 +74,10 @@ export async function POST(request: NextRequest) {
           userBId: data.receiverId,
           createdAt: now,
           status: "active",
+          participantIds: [data.senderId, data.receiverId],
+          lastMessage: null,
+          lastMessageAt: null,
+          lastMessageSenderId: null,
         });
 
         return { decision: "approve" as const, matchId: matchRef.id };

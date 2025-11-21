@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
 import { WhisperModal } from "@/components/whisper/WhisperModal";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
   const { user, profile, loading, signInWithGoogle, logout } = useAuth();
@@ -13,50 +14,12 @@ export default function Home() {
   const [feedError, setFeedError] = useState<string | null>(null);
   const [remainingQuota, setRemainingQuota] = useState<number | null>(null);
   const [activeWhisperTarget, setActiveWhisperTarget] = useState<FeedProfileSummary | null>(null);
-  const [inboxUnread, setInboxUnread] = useState<number | null>(null);
-
   // Redirect logic for authenticated users without profiles
   useEffect(() => {
     if (!loading && user && !profile) {
       router.push("/onboarding");
     }
   }, [user, profile, loading, router]);
-
-  useEffect(() => {
-    const loadInboxUnread = async () => {
-      if (!user || !profile) {
-        return;
-      }
-
-      try {
-        const idToken = await user.getIdToken();
-        const response = await fetch("/api/whispers/inbox", {
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-          },
-        });
-
-        if (!response.ok) {
-          return;
-        }
-
-        const data = await response.json();
-
-        if (typeof data.unreadCount === "number") {
-          setInboxUnread(data.unreadCount);
-        } else {
-          setInboxUnread(null);
-        }
-      } catch (error) {
-        console.error("Error loading inbox unread count", error);
-        setInboxUnread(null);
-      }
-    };
-
-    if (user && profile) {
-      loadInboxUnread();
-    }
-  }, [user, profile]);
 
   useEffect(() => {
     const loadFeed = async () => {
@@ -140,44 +103,7 @@ export default function Home() {
             onClose={() => setActiveWhisperTarget(null)}
           />
         )}
-        <header className="w-full max-w-md flex justify-between items-center p-4 bg-white rounded-xl shadow-sm mb-6">
-          <div className="flex items-center gap-3">
-            {profile.photoURLs[0] && (
-              <img
-                src={profile.photoURLs[0]}
-                alt={profile.displayName}
-                className="w-10 h-10 rounded-full object-cover border-2 border-pink-500"
-              />
-            )}
-            <div>
-              <h1 className="font-bold text-gray-800">Discover</h1>
-              <p className="text-xs text-gray-500">{profile.location.city}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => router.push("/whispers")}
-              className="relative text-sm text-gray-500 hover:text-gray-800"
-            >
-              Whispers
-              {inboxUnread && inboxUnread > 0 && (
-                <span className="ml-1 inline-flex items-center justify-center px-1.5 py-0.5 rounded-full bg-primary text-[10px] font-semibold text-white">
-                  {inboxUnread}
-                </span>
-              )}
-            </button>
-            <button
-              onClick={() => router.push("/settings")}
-              className="text-sm text-gray-500 hover:text-gray-800"
-            >
-              Settings
-            </button>
-            <button onClick={logout} className="text-sm text-gray-500 hover:text-red-500">
-              Log Out
-            </button>
-          </div>
-        </header>
+        <Navbar />
 
         <main className="w-full max-w-md mt-4">
           {feedLoading ? (
@@ -234,7 +160,7 @@ export default function Home() {
         {/* Brand / Logo Area */}
         <div className="flex flex-col items-center gap-4">
           <div className="h-24 w-24 rounded-full bg-primary neo-border flex items-center justify-center">
-             <span className="text-4xl">💌</span>
+            <span className="text-4xl">💌</span>
           </div>
           <h1 className="font-serif text-5xl md:text-7xl font-bold tracking-tight text-foreground">
             May I Meet You?
@@ -302,9 +228,8 @@ function FeedCard({ profile, onPass, onWhisper }: FeedCardProps) {
             <img
               src={profile.photoURL}
               alt={profile.displayName}
-              className={`w-full h-full object-cover transition-all duration-300 ${
-                revealed ? "" : "blur-lg scale-105"
-              }`}
+              className={`w-full h-full object-cover transition-all duration-300 ${revealed ? "" : "blur-lg scale-105"
+                }`}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm">

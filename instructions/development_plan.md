@@ -76,7 +76,6 @@ This document outlines the chronological feature development order for MayIMeetY
     5.2.3 Image attachment logic.
 3.  **Notifications**
     5.3.1 In-app toasts for new messages/matches.
-    5.3.2 (Optional for MVP) Firebase Cloud Messaging (FCM) for push notifications.
 
 ## Phase 6: Safety & Polish (Epic 5)
 **Goal:** Ensure a safe environment and production readiness.

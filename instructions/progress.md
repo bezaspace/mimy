@@ -61,5 +61,21 @@
   - Require scrolling the profile container to the bottom before enabling the `Play Whisper` button.
 - [x] **4.2.3 Approve / Decline Actions**
   - Wired `/api/whispers/play` and `/api/whispers/decision` so approve creates a `matches` document and both decisions remove the whisper from the inbox view.
-- [ ] **4.3.1 Sender Dashboard ("My Whispers")**
+- [x] **4.3.1 Sender Dashboard ("My Whispers")**
   - `/api/whispers/my` and `/my-whispers` page to track sent whispers, status (pending/approved/declined/expired), and basic summary stats.
+
+## Phase 5: Engagement (Chat) (Epic 4)
+- [x] **5.1.1 Chat Infrastructure**
+  - Created Firestore `messages` sub-collection under `matches` with real-time listeners.
+  - Implemented `/api/chat/send` and `/api/chat/history` endpoints.
+- [x] **5.1.2 Chat Window UI**
+  - Added chat interface unlocked upon match approval.
+  - Real-time message updates and scroll-to-bottom behavior.
+- [x] **5.2.1 Rich Text Messaging**
+  - Text support with emoji picker integration.
+- [x] **5.2.2 Voice Notes**
+  - Voice note recording and playback in chat.
+- [x] **5.2.3 Image Attachments**
+  - Image sharing functionality in chat messages.
+- [x] **5.3.1 In-app Notifications**
+  - Toast notifications for new messages and matches.

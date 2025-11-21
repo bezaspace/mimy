@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import Navbar from "@/components/Navbar";
 
 interface InboxSender {
   uid: string;
@@ -174,11 +175,26 @@ export default function WhispersPage() {
 
       if (!response.ok) {
         console.error("Failed to process decision");
+        setDecisionLoading(null);
+        return;
+      }
+
+      let data: any = null;
+      try {
+        data = await response.json();
+      } catch (e) {
+        data = null;
       }
 
       setItems((prev) =>
         prev.filter((item) => item.whisperId !== activeItem.whisperId),
       );
+
+      if (decision === "approve" && data && typeof data.matchId === "string") {
+        handleCloseOverlay();
+        router.push(`/matches/${data.matchId}`);
+        return;
+      }
 
       handleCloseOverlay();
     } catch (error) {
@@ -255,11 +271,10 @@ export default function WhispersPage() {
                 type="button"
                 disabled={!hasScrolledProfile}
                 onClick={handlePlay}
-                className={`w-full px-4 py-2 rounded-lg text-sm font-semibold neo-border flex items-center justify-center gap-2 ${
-                  hasScrolledProfile
-                    ? "bg-primary text-white hover:brightness-110"
-                    : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                }`}
+                className={`w-full px-4 py-2 rounded-lg text-sm font-semibold neo-border flex items-center justify-center gap-2 ${hasScrolledProfile
+                  ? "bg-primary text-white hover:brightness-110"
+                  : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  }`}
               >
                 {hasScrolledProfile ? "Play Whisper" : "Scroll profile to unlock play"}
               </button>
@@ -296,29 +311,7 @@ export default function WhispersPage() {
         </div>
       )}
 
-      <header className="w-full max-w-md flex justify-between items-center p-4 bg-white rounded-xl shadow-sm mb-6">
-        <div className="flex items-center gap-3">
-          {profile.photoURLs[0] && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={profile.photoURLs[0]}
-              alt={profile.displayName}
-              className="w-10 h-10 rounded-full object-cover border-2 border-pink-500"
-            />
-          )}
-          <div>
-            <h1 className="font-bold text-gray-800">Whispers</h1>
-            <p className="text-xs text-gray-500">Your incoming whispers</p>
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={() => router.push("/")}
-          className="text-sm text-gray-500 hover:text-gray-800"
-        >
-          Back to Discover
-        </button>
-      </header>
+      <Navbar />
 
       <main className="w-full max-w-md mt-2">
         {openToWhispers === false && (

@@ -10,6 +10,7 @@ import {
   AVAILABLE_INTERESTS,
   DEAL_BREAKERS,
 } from "@/components/onboarding/steps/StepInterests";
+import Navbar from "@/components/Navbar";
 
 export default function SettingsPage() {
   const { user, profile, loading, refreshProfile } = useAuth();
@@ -187,8 +188,9 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 flex justify-center">
-      <div className="w-full max-w-2xl bg-white neo-border rounded-2xl p-6 shadow-lg space-y-6">
+    <div className="min-h-screen bg-gray-50 py-8 px-4 flex flex-col items-center">
+      <Navbar />
+      <div className="w-full max-w-md bg-white neo-border rounded-2xl p-6 shadow-lg space-y-6">
         <h1 className="text-2xl font-bold mb-2 text-gray-900">Your Profile</h1>
 
         {/* Profile photo section */}
@@ -422,11 +424,10 @@ export default function SettingsPage() {
                         key={interest}
                         type="button"
                         onClick={() => toggleLocalInterest(interest)}
-                        className={`px-3 py-1 rounded-full border-2 text-xs font-semibold transition-all active:translate-y-0.5 ${
-                          localInterests.includes(interest)
-                            ? "bg-secondary text-foreground border-black shadow-[2px_2px_0px_0px_rgba(26,26,26,1)]"
-                            : "bg-white text-gray-600 border-gray-300 hover:border-black hover:text-black"
-                        }`}
+                        className={`px-3 py-1 rounded-full border-2 text-xs font-semibold transition-all active:translate-y-0.5 ${localInterests.includes(interest)
+                          ? "bg-secondary text-foreground border-black shadow-[2px_2px_0px_0px_rgba(26,26,26,1)]"
+                          : "bg-white text-gray-600 border-gray-300 hover:border-black hover:text-black"
+                          }`}
                       >
                         {interest}
                       </button>
@@ -462,11 +463,10 @@ export default function SettingsPage() {
                         key={item}
                         type="button"
                         onClick={() => toggleLocalDealBreaker(item)}
-                        className={`px-3 py-1 rounded-full border-2 text-xs font-semibold transition-all active:translate-y-0.5 ${
-                          localDealBreakers.includes(item)
-                            ? "bg-primary text-white border-black shadow-[2px_2px_0px_0px_rgba(26,26,26,1)]"
-                            : "bg-white text-gray-600 border-gray-300 hover:border-black hover:text-black"
-                        }`}
+                        className={`px-3 py-1 rounded-full border-2 text-xs font-semibold transition-all active:translate-y-0.5 ${localDealBreakers.includes(item)
+                          ? "bg-primary text-white border-black shadow-[2px_2px_0px_0px_rgba(26,26,26,1)]"
+                          : "bg-white text-gray-600 border-gray-300 hover:border-black hover:text-black"
+                          }`}
                       >
                         {item}
                       </button>
@@ -532,16 +532,14 @@ export default function SettingsPage() {
             type="button"
             onClick={handleToggleOpen}
             disabled={isSaving}
-            className={`relative inline-flex h-7 w-12 items-center rounded-full border transition ${
-              localOpenToWhispers
-                ? "bg-primary border-primary"
-                : "bg-gray-200 border-gray-300"
-            }`}
+            className={`relative inline-flex h-7 w-12 items-center rounded-full border transition ${localOpenToWhispers
+              ? "bg-primary border-primary"
+              : "bg-gray-200 border-gray-300"
+              }`}
           >
             <span
-              className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition ${
-                localOpenToWhispers ? "translate-x-5" : "translate-x-1"
-              }`}
+              className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition ${localOpenToWhispers ? "translate-x-5" : "translate-x-1"
+                }`}
             />
           </button>
         </section>
