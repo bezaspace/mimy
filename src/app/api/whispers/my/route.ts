@@ -114,6 +114,7 @@ export async function GET(request: NextRequest) {
     const totalPlayed = items.filter((item) => item.playedAt).length;
     const totalApproved = items.filter((item) => item.status === "approved").length;
 
+
     return NextResponse.json(
       {
         items,
@@ -127,6 +128,57 @@ export async function GET(request: NextRequest) {
     );
   } catch (error) {
     console.error("Error fetching my whispers", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get("authorization") || "";
+    const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
+
+    if (!token) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const decoded = await adminAuth.verifyIdToken(token);
+    const uid = decoded.uid as string | undefined;
+
+    if (!uid) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const whisperId = searchParams.get("id");
+
+    if (!whisperId) {
+      return NextResponse.json({ error: "Missing whisper ID" }, { status: 400 });
+    }
+
+    const whisperRef = adminDb.collection("whispers").doc(whisperId);
+    const whisperSnap = await whisperRef.get();
+
+    if (!whisperSnap.exists) {
+      return NextResponse.json({ error: "Whisper not found" }, { status: 404 });
+    }
+
+    const whisperData = whisperSnap.data();
+
+    if (whisperData?.senderId !== uid) {
+      return NextResponse.json(
+        { error: "You do not have permission to delete this whisper" },
+        { status: 403 }
+      );
+    }
+
+    await whisperRef.delete();
+
+    return NextResponse.json({ success: true }, { status: 200 });
+  } catch (error) {
+    console.error("Error deleting whisper", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

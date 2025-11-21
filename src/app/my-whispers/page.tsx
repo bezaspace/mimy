@@ -40,6 +40,8 @@ export default function MyWhispersPage() {
   const [summary, setSummary] = useState<MyWhispersSummary | null>(null);
   const [pageLoading, setPageLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -86,6 +88,50 @@ export default function MyWhispersPage() {
     }
   }, [user, profile]);
 
+  const handleDeleteClick = (id: string) => {
+    setShowDeleteConfirm(id);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!showDeleteConfirm || !user) return;
+
+    const idToDelete = showDeleteConfirm;
+    setDeletingId(idToDelete);
+    setShowDeleteConfirm(null);
+
+    try {
+      const idToken = await user.getIdToken();
+      const response = await fetch(`/api/whispers/my?id=${idToDelete}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete whisper");
+      }
+
+      setItems((prev) => prev.filter((item) => item.id !== idToDelete));
+      setSummary((prev) => {
+        if (!prev) return null;
+        return {
+          ...prev,
+          totalSent: Math.max(0, prev.totalSent - 1),
+        };
+      });
+    } catch (err) {
+      console.error("Error deleting whisper", err);
+      alert("Failed to delete whisper. Please try again.");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirm(null);
+  };
+
   if (loading || !user || !profile) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -125,7 +171,7 @@ export default function MyWhispersPage() {
           <div className="bg-white p-4 rounded-2xl shadow-lg neo-border flex justify-between items-center">
             <div>
               <p className="text-xs font-semibold uppercase text-gray-500">
-                This Week's Vibes
+                This Week&apos;s Vibes
               </p>
               <p className="text-sm text-gray-800 mt-1">
                 {summary.totalSent} whispers sent
@@ -190,16 +236,69 @@ export default function MyWhispersPage() {
                     </p>
                   </div>
                 </div>
-                <div className="text-right text-[11px] text-gray-400">
+                <div className="text-right text-[11px] text-gray-400 flex flex-col items-end gap-2">
                   {item.createdAt ? (
                     <span>Sent</span>
                   ) : null}
+                  <button
+                    onClick={() => handleDeleteClick(item.id)}
+                    disabled={deletingId === item.id}
+                    className="p-1.5 rounded-full hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors"
+                    title="Delete whisper"
+                  >
+                    {deletingId === item.id ? (
+                      <div className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="w-4 h-4"
+                      >
+                        <path d="M3 6h18" />
+                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                      </svg>
+                    )}
+                  </button>
                 </div>
               </div>
             ))}
           </div>
         )}
       </main>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 neo-border animate-in fade-in zoom-in duration-200">
+            <h3 className="text-lg font-bold text-gray-900 mb-2">
+              Delete Whisper?
+            </h3>
+            <p className="text-sm text-gray-600 mb-6">
+              Are you sure you want to delete this whisper? This action cannot be undone.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={handleCancelDelete}
+                className="px-4 py-2 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-100 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmDelete}
+                className="px-4 py-2 rounded-xl text-sm font-semibold bg-red-500 text-white hover:bg-red-600 transition-colors shadow-sm"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
