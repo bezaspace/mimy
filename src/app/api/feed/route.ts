@@ -29,6 +29,15 @@ export async function GET(request: NextRequest) {
     const decoded = await adminAuth.verifyIdToken(token);
     const uid = decoded.uid;
 
+    const searchParams = request.nextUrl.searchParams;
+    const minAge = searchParams.get("minAge") ? parseInt(searchParams.get("minAge")!) : null;
+    const maxAge = searchParams.get("maxAge") ? parseInt(searchParams.get("maxAge")!) : null;
+    const gender = searchParams.get("gender");
+    const city = searchParams.get("city");
+    const orientation = searchParams.get("orientation");
+    const interestsParam = searchParams.get("interests");
+    const filterInterests = interestsParam ? interestsParam.split(",") : [];
+
     const userRef = adminDb.collection("users").doc(uid);
     const userSnap = await userRef.get();
 
@@ -61,7 +70,19 @@ export async function GET(request: NextRequest) {
     });
 
     const scored = candidates
-      .filter((candidate) => !seenUserIds.includes(candidate.uid))
+      .filter((candidate) => {
+        if (seenUserIds.includes(candidate.uid)) return false;
+        if (minAge && candidate.age < minAge) return false;
+        if (maxAge && candidate.age > maxAge) return false;
+        if (gender && candidate.gender !== gender) return false;
+        if (city && !candidate.location.city.toLowerCase().includes(city.toLowerCase())) return false;
+        if (orientation && candidate.orientation !== orientation) return false;
+        if (filterInterests.length > 0) {
+          const hasInterest = candidate.interests.some((i) => filterInterests.includes(i));
+          if (!hasInterest) return false;
+        }
+        return true;
+      })
       .map((candidate) => {
         const interestScore = computeInterestScore(profile.interests, candidate.interests);
         const locationScore = computeLocationScore(profile.location.city, candidate.location.city);

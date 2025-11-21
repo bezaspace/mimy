@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../context/AuthContext";
 import { WhisperModal } from "@/components/whisper/WhisperModal";
 import Navbar from "@/components/Navbar";
+import { FilterModal, FeedFilters } from "@/components/FilterModal";
 
 export default function Home() {
   const { user, profile, loading, signInWithGoogle, logout } = useAuth();
@@ -14,6 +15,8 @@ export default function Home() {
   const [feedError, setFeedError] = useState<string | null>(null);
   const [remainingQuota, setRemainingQuota] = useState<number | null>(null);
   const [activeWhisperTarget, setActiveWhisperTarget] = useState<FeedProfileSummary | null>(null);
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [filters, setFilters] = useState<FeedFilters>({});
   // Redirect logic for authenticated users without profiles
   useEffect(() => {
     if (!loading && user && !profile) {
@@ -32,7 +35,18 @@ export default function Home() {
 
       try {
         const idToken = await user.getIdToken();
-        const response = await fetch("/api/feed", {
+
+        const params = new URLSearchParams();
+        if (filters.minAge) params.append("minAge", filters.minAge.toString());
+        if (filters.maxAge) params.append("maxAge", filters.maxAge.toString());
+        if (filters.gender) params.append("gender", filters.gender);
+        if (filters.city) params.append("city", filters.city);
+        if (filters.orientation) params.append("orientation", filters.orientation);
+        if (filters.interests && filters.interests.length > 0) {
+          params.append("interests", filters.interests.join(","));
+        }
+
+        const response = await fetch(`/api/feed?${params.toString()}`, {
           headers: {
             Authorization: `Bearer ${idToken}`,
           },
@@ -61,7 +75,7 @@ export default function Home() {
     if (user && profile) {
       loadFeed();
     }
-  }, [user, profile]);
+  }, [user, profile, filters]);
 
   const handlePass = async (targetUserId: string) => {
     if (!user) {
@@ -105,7 +119,31 @@ export default function Home() {
         )}
         <Navbar />
 
+        <FilterModal
+          isOpen={showFilterModal}
+          onClose={() => setShowFilterModal(false)}
+          initialFilters={filters}
+          onApply={setFilters}
+        />
+
         <main className="w-full max-w-md mt-4">
+          <div className="flex justify-end mb-4 px-2">
+            <button
+              onClick={() => setShowFilterModal(true)}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-xl border transition-all ${Object.values(filters).filter(v => v !== undefined && v !== "").length > 0
+                ? "bg-primary/10 text-primary border-primary/20"
+                : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
+                }`}
+            >
+              <span className="text-lg">⚡️</span>
+              Filters
+              {Object.values(filters).filter(v => v !== undefined && v !== "").length > 0 && (
+                <span className="bg-primary text-white text-[10px] px-1.5 py-0.5 rounded-full">
+                  {Object.values(filters).filter(v => v !== undefined && v !== "").length}
+                </span>
+              )}
+            </button>
+          </div>
           {feedLoading ? (
             <div className="flex justify-center items-center py-16">
               <div className="text-gray-500 text-sm">Loading your feed...</div>
