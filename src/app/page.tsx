@@ -110,14 +110,17 @@ export default function Home() {
   // Authenticated & Onboarded State (The Feed - Placeholder)
   if (user && profile) {
     return (
-      <div className="flex min-h-screen flex-col items-center bg-gray-50 p-4 pb-24">
+      <div className="flex h-screen flex-col items-center bg-gray-50 pb-[80px]">
         {activeWhisperTarget && (
           <WhisperModal
             target={activeWhisperTarget}
             onClose={() => setActiveWhisperTarget(null)}
           />
         )}
-        <Navbar />
+        <Navbar
+          onFilterClick={() => setShowFilterModal(true)}
+          activeFilterCount={Object.values(filters).filter(v => v !== undefined && v !== "").length}
+        />
 
         <FilterModal
           isOpen={showFilterModal}
@@ -126,24 +129,7 @@ export default function Home() {
           onApply={setFilters}
         />
 
-        <main className="w-full max-w-md mt-4">
-          <div className="flex justify-end mb-4 px-2">
-            <button
-              onClick={() => setShowFilterModal(true)}
-              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-xl border transition-all ${Object.values(filters).filter(v => v !== undefined && v !== "").length > 0
-                ? "bg-primary/10 text-primary border-primary/20"
-                : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
-                }`}
-            >
-              <span className="text-lg">⚡️</span>
-              Filters
-              {Object.values(filters).filter(v => v !== undefined && v !== "").length > 0 && (
-                <span className="bg-primary text-white text-[10px] px-1.5 py-0.5 rounded-full">
-                  {Object.values(filters).filter(v => v !== undefined && v !== "").length}
-                </span>
-              )}
-            </button>
-          </div>
+        <main className="w-full h-full flex flex-col relative">
           {feedLoading ? (
             <div className="flex justify-center items-center py-16">
               <div className="text-gray-500 text-sm">Loading your feed...</div>
@@ -170,19 +156,30 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="flex overflow-x-auto snap-x snap-mandatory w-full h-full items-center [&::-webkit-scrollbar]:hidden">
               {feedProfiles.map((p) => (
-                <FeedCard
-                  key={p.uid}
-                  profile={p}
-                  onPass={() => handlePass(p.uid)}
-                  onWhisper={() => setActiveWhisperTarget(p)}
-                />
+                <div key={p.uid} className="w-full flex-shrink-0 snap-center flex items-center justify-center h-full p-4">
+                  <div className="w-full h-full max-w-md relative">
+                    <FeedCard
+                      profile={p}
+                      onPass={() => handlePass(p.uid)}
+                      onWhisper={() => setActiveWhisperTarget(p)}
+                    />
+                  </div>
+                </div>
               ))}
               {typeof remainingQuota === "number" && (
-                <p className="text-xs text-gray-500 text-center mt-2">
-                  You can discover {remainingQuota} more profiles today.
-                </p>
+                <div className="w-full flex-shrink-0 snap-center flex items-center justify-center h-full p-4">
+                  <div className="bg-white p-8 rounded-3xl shadow-xl neo-border text-center max-w-xs mx-auto flex flex-col items-center justify-center gap-4">
+                    <div className="text-6xl">😴</div>
+                    <div>
+                      <p className="text-xl font-bold mb-2">That&apos;s all for now!</p>
+                      <p className="text-gray-500">
+                        You can discover {remainingQuota} more profiles today.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           )}
@@ -262,86 +259,95 @@ function FeedCard({ profile, onPass, onWhisper }: FeedCardProps) {
   };
 
   return (
-    <div className="bg-white p-4 rounded-2xl shadow-lg neo-border">
-      <div className="flex flex-col gap-3">
-        <div
-          className="w-full h-56 rounded-xl overflow-hidden relative cursor-pointer group"
-          onClick={handleReveal}
-        >
-          {profile.photoURL ? (
-            <img
-              src={profile.photoURL}
-              alt={profile.displayName}
-              className={`w-full h-full object-cover transition-all duration-300 ${revealed ? "" : "blur-lg scale-105"
-                }`}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm">
-              No photo
-            </div>
-          )}
+    <div className="bg-white h-full rounded-3xl shadow-xl neo-border overflow-hidden flex flex-col relative">
+      {/* Image Section - Takes available space */}
+      <div
+        className="flex-1 relative cursor-pointer group overflow-hidden"
+        onClick={handleReveal}
+      >
+        {profile.photoURL ? (
+          <img
+            src={profile.photoURL}
+            alt={profile.displayName}
+            className={`w-full h-full object-cover transition-all duration-500 ${revealed ? "" : "blur-xl scale-110"
+              }`}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm">
+            No photo
+          </div>
+        )}
 
-          {/* View Profile Overlay Button */}
-          {revealed && (
-            <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button
-                onClick={goToProfile}
-                className="bg-white/90 hover:bg-white text-gray-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm backdrop-blur-sm flex items-center gap-1"
-              >
-                View Profile
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3">
-                  <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
-                </svg>
-              </button>
-            </div>
-          )}
-        </div>
-        <div className="flex justify-between items-center">
+        {/* Gradient Overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+        {/* View Profile Overlay Button */}
+        {revealed && (
+          <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+            <button
+              onClick={goToProfile}
+              className="bg-white/20 hover:bg-white/40 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1 border border-white/30 transition-all"
+            >
+              View Profile
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-3 h-3">
+                <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Content Section - Fixed at bottom */}
+      <div className="p-5 flex flex-col gap-3 bg-white z-10">
+        <div className="flex justify-between items-start">
           <div
             className="cursor-pointer hover:opacity-80 transition-opacity"
             onClick={goToProfile}
           >
-            <h2 className="font-bold text-lg text-gray-900 flex items-center gap-1">
+            <h2 className="font-bold text-2xl text-gray-900 flex items-center gap-2">
               {profile.displayName}, {profile.age}
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 text-gray-400">
                 <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
               </svg>
             </h2>
-            <p className="text-xs text-gray-500">{profile.location.city}</p>
+            <p className="text-sm text-gray-500 font-medium">{profile.location.city}</p>
           </div>
         </div>
-        <p className="text-sm text-gray-700 line-clamp-3">{profile.bio}</p>
+
+        <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">{profile.bio}</p>
+
         {profile.interests.length > 0 && (
-          <div className="flex flex-wrap gap-2 mt-1">
+          <div className="flex flex-wrap gap-2">
             {profile.interests.slice(0, 3).map((interest) => (
               <span
                 key={interest}
-                className="px-2 py-1 text-xs rounded-full bg-pink-50 text-pink-700 border border-pink-100"
+                className="px-2.5 py-1 text-xs font-medium rounded-full bg-pink-50 text-pink-700 border border-pink-100"
               >
                 {interest}
               </span>
             ))}
             {profile.interests.length > 3 && (
-              <span className="px-2 py-1 text-xs rounded-full bg-gray-50 text-gray-500 border border-gray-100">
+              <span className="px-2.5 py-1 text-xs font-medium rounded-full bg-gray-50 text-gray-500 border border-gray-100">
                 +{profile.interests.length - 3}
               </span>
             )}
           </div>
         )}
-        <div className="mt-4 flex justify-between items-center">
+
+        <div className="mt-2 grid grid-cols-2 gap-3">
           <button
-            className="px-4 py-2 rounded-lg bg-primary text-white neo-border text-sm font-semibold hover:brightness-110 transition"
+            onClick={onPass}
+            className="px-4 py-3 rounded-xl border-2 border-gray-200 text-gray-600 font-bold hover:bg-gray-50 hover:border-gray-300 transition-all active:scale-95"
+            type="button"
+          >
+            Pass
+          </button>
+          <button
+            className="px-4 py-3 rounded-xl bg-primary text-white border-2 border-primary font-bold hover:bg-primary-hover hover:border-primary-hover transition-all shadow-md active:scale-95"
             type="button"
             onClick={onWhisper}
           >
             Whisper Hi
-          </button>
-          <button
-            onClick={onPass}
-            className="px-3 py-2 rounded-lg bg-white neo-border text-sm text-gray-700 hover:bg-gray-50 transition"
-            type="button"
-          >
-            Pass
           </button>
         </div>
       </div>

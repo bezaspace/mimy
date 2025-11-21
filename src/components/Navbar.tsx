@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
-export default function Navbar() {
+interface NavbarProps {
+    onFilterClick?: () => void;
+    activeFilterCount?: number;
+}
+
+export default function Navbar({ onFilterClick, activeFilterCount = 0 }: NavbarProps) {
     const { user, profile, logout } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
@@ -70,30 +75,47 @@ export default function Navbar() {
                             </p>
                         </div>
                     </div>
-                    <button onClick={logout} className="text-xs text-red-500 hover:text-red-700 font-medium">
-                        Log Out
-                    </button>
+                    <div className="flex items-center gap-3">
+                        {pathname === "/" && onFilterClick && (
+                            <button
+                                onClick={onFilterClick}
+                                className={`flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-lg border transition-all ${activeFilterCount > 0
+                                    ? "bg-primary/10 text-primary border-primary/20"
+                                    : "bg-white text-gray-600 border-gray-200 hover:bg-gray-50"
+                                    }`}
+                            >
+                                <span className="text-sm">⚡️</span>
+                                Filters
+                                {activeFilterCount > 0 && (
+                                    <span className="bg-primary text-white text-[9px] px-1.5 py-0.5 rounded-full">
+                                        {activeFilterCount}
+                                    </span>
+                                )}
+                            </button>
+                        )}
+                        <button onClick={logout} className="text-xs text-red-500 hover:text-red-700 font-medium">
+                            Log Out
+                        </button>
+                    </div>
                 </div>
 
                 {/* Top nav tabs for md+ screens */}
                 <nav className="hidden md:flex items-center justify-between bg-gray-50 p-1 rounded-lg">
                     <button
                         onClick={() => router.push("/")}
-                        className={`flex-1 py-2 text-xs font-semibold rounded-md transition-all ${
-                            isActive("/")
+                        className={`flex-1 py-2 text-xs font-semibold rounded-md transition-all ${isActive("/")
                                 ? "bg-white text-primary shadow-sm"
                                 : "text-gray-500 hover:text-gray-700"
-                        }`}
+                            }`}
                     >
                         Discover
                     </button>
                     <button
                         onClick={() => router.push("/whispers")}
-                        className={`relative flex-1 py-2 text-xs font-semibold rounded-md transition-all ${
-                            isActive("/whispers")
+                        className={`relative flex-1 py-2 text-xs font-semibold rounded-md transition-all ${isActive("/whispers")
                                 ? "bg-white text-primary shadow-sm"
                                 : "text-gray-500 hover:text-gray-700"
-                        }`}
+                            }`}
                     >
                         Whispers
                         {inboxUnread && inboxUnread > 0 && (
@@ -104,21 +126,19 @@ export default function Navbar() {
                     </button>
                     <button
                         onClick={() => router.push("/matches")}
-                        className={`flex-1 py-2 text-xs font-semibold rounded-md transition-all ${
-                            isActive("/matches")
+                        className={`flex-1 py-2 text-xs font-semibold rounded-md transition-all ${isActive("/matches")
                                 ? "bg-white text-primary shadow-sm"
                                 : "text-gray-500 hover:text-gray-700"
-                        }`}
+                            }`}
                     >
                         Chats
                     </button>
                     <button
                         onClick={() => router.push("/settings")}
-                        className={`flex-1 py-2 text-xs font-semibold rounded-md transition-all ${
-                            isActive("/settings")
+                        className={`flex-1 py-2 text-xs font-semibold rounded-md transition-all ${isActive("/settings")
                                 ? "bg-white text-primary shadow-sm"
                                 : "text-gray-500 hover:text-gray-700"
-                        }`}
+                            }`}
                     >
                         Settings
                     </button>
@@ -130,21 +150,19 @@ export default function Navbar() {
                 <div className="mx-auto max-w-md flex items-center justify-between px-4 py-3">
                     <button
                         onClick={() => router.push("/")}
-                        className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${
-                            isActive("/")
+                        className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${isActive("/")
                                 ? "bg-primary text-white shadow-md"
                                 : "text-gray-600 hover:text-gray-800"
-                        }`}
+                            }`}
                     >
                         Discover
                     </button>
                     <button
                         onClick={() => router.push("/whispers")}
-                        className={`relative flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${
-                            isActive("/whispers")
+                        className={`relative flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${isActive("/whispers")
                                 ? "bg-primary text-white shadow-md"
                                 : "text-gray-600 hover:text-gray-800"
-                        }`}
+                            }`}
                     >
                         Whispers
                         {inboxUnread && inboxUnread > 0 && (
@@ -155,21 +173,19 @@ export default function Navbar() {
                     </button>
                     <button
                         onClick={() => router.push("/matches")}
-                        className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${
-                            isActive("/matches")
+                        className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${isActive("/matches")
                                 ? "bg-primary text-white shadow-md"
                                 : "text-gray-600 hover:text-gray-800"
-                        }`}
+                            }`}
                     >
                         Chats
                     </button>
                     <button
                         onClick={() => router.push("/settings")}
-                        className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${
-                            isActive("/settings")
+                        className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${isActive("/settings")
                                 ? "bg-primary text-white shadow-md"
                                 : "text-gray-600 hover:text-gray-800"
-                        }`}
+                            }`}
                     >
                         Settings
                     </button>
