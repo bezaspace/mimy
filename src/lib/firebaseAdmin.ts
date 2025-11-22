@@ -5,17 +5,27 @@ import { getFirestore } from "firebase-admin/firestore";
 const apps = getApps();
 
 if (!apps.length) {
-  const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+  try {
+    const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
-  if (!serviceAccountJson) {
-    throw new Error("FIREBASE_SERVICE_ACCOUNT_KEY is not set");
+    if (serviceAccountKey) {
+      // If we have a service account key, use it
+      const serviceAccount = JSON.parse(serviceAccountKey);
+      initializeApp({
+        credential: cert(serviceAccount),
+        projectId: serviceAccount.project_id || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+      });
+    } else {
+      // Fallback for App Hosting or ADC
+      initializeApp({
+        projectId: process.env.FIREBASE_CONFIG
+          ? JSON.parse(process.env.FIREBASE_CONFIG).projectId
+          : process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+      });
+    }
+  } catch (error) {
+    console.error("Firebase Admin initialization error:", error);
   }
-
-  const serviceAccount = JSON.parse(serviceAccountJson);
-
-  initializeApp({
-    credential: cert(serviceAccount),
-  });
 }
 
 const adminAuth = getAuth();

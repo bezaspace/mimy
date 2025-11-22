@@ -110,7 +110,7 @@ export default function Home() {
   // Authenticated & Onboarded State (The Feed - Placeholder)
   if (user && profile) {
     return (
-      <div className="flex h-screen flex-col items-center bg-gray-50 pb-[80px]">
+      <div className="flex h-[100dvh] flex-col items-center bg-gray-50 pb-[80px] md:pb-0">
         {activeWhisperTarget && (
           <WhisperModal
             target={activeWhisperTarget}
@@ -129,7 +129,7 @@ export default function Home() {
           onApply={setFilters}
         />
 
-        <main className="w-full h-full flex flex-col relative">
+        <main className="w-full flex-1 min-h-0 flex flex-col relative">
           {feedLoading ? (
             <div className="flex justify-center items-center py-16">
               <div className="text-gray-500 text-sm">Loading your feed...</div>
